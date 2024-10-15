@@ -32,6 +32,45 @@ app.post('/users', (req, res) => {
 
 })
 
+
+app.get('/users', (req, res) => {
+
+    // leemos todo el fichero
+    const data = fs.readFileSync('users.txt', 'utf8');
+    console.log("🚀 ~ file: app.js:43 ~ app.get ~ data:", data)
+
+    // utilizamos el método split para separar el string por saltos de línea
+    const parsedData = data.split('\n');
+    console.log("🚀 ~ file: app.js:47 ~ app.get ~ parsedData:", parsedData)
+    parsedData.pop();
+
+    // Corregir a las 21.07-> pasar el 'parsedData' a un array de objetos (manualmente o usando map)
+
+    // "Manual con forEach"
+    let users = [];
+    // parsedData.forEach((p) => {
+    //     const parsedPerson = p.split(',');
+    //     users.push({
+    //         name: parsedPerson[0],
+    //         surnames: parsedPerson[1]
+    //     });
+    // });
+    users = parsedData.map(p => {
+        const parsedPerson = p.split(',');
+        return {
+            name: parsedPerson[0],
+            surnames: parsedPerson[1]
+        }
+    })
+
+    // devolvemos la respuesta (faltan cosas)
+    res.status(200).json({
+        "message": "Users retrieved successfully",
+        "results": users
+    })
+
+})
+
 app.listen(3000, () => {
     console.log("Sevidor esuchando por el puerto 3000 correctamente");
 })
