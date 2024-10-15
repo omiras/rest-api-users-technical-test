@@ -61,9 +61,29 @@ app.get('/users', (req, res) => {
             name: parsedPerson[0],
             surnames: parsedPerson[1]
         }
-    })
+    });
 
-    // devolvemos la respuesta (faltan cosas)
+    // necesito filtrarlos? 
+    // 1.  query string. https://localhost:3000/users?name=Susana
+    // 2. ¿Qué método de aray es el adecuado para filtrar los elementos de un array y obtener otro array con los elementos que cumplan cierta condición?
+
+    // la query string la encontramos en req.query
+    // queremos también poder filtrar por surnames
+    const { name, surnames } = req.query;
+    
+    if (name) {
+        // sobreescribo toda la variable users
+        users = users.filter(u => u.name == name);
+    }
+    
+    if (surnames) {
+        // sobreescribo la variable users con los usuarios que tiene de apellido 'suernames'
+        users = users.filter(u => u.surnames == surnames);
+    }
+
+    
+
+    // devolvemos la respuesta 
     res.status(200).json({
         "message": "Users retrieved successfully",
         "results": users
